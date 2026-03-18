@@ -1,1 +1,21 @@
-<!DOCTYPE html><html><head><title>Loading ERP...</title><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" /><script>window.onload=function(){ sessionStorage.clear(); localStorage.clear(); window.location.replace('https://withdrawal-zope-benjamin-dev.trycloudflare.com'); }</script></head><body style="background-color:#f4f4f9; display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif;"><h3>Connecting to Secure Server... Please wait.</h3></body></html>
+<a id="server-link" href="#" class="btn">Open Server</a>
+
+<script>
+  async function updateServerLink() {
+    try {
+      // GitHub-ile tunnel_url.json file fetch cheyyunnu
+      const response = await fetch('https://raw.githubusercontent.com/kothamangalamhaka/Haka/main/tunnel_url.json');
+      const data = await response.json();
+      
+      if (data.url) {
+        // Button-te link Cloudflare URL-ileeku mathunnu
+        document.getElementById('server-link').href = data.url;
+      }
+    } catch (error) {
+      console.error('Error fetching tunnel URL:', error);
+    }
+  }
+
+  // Page load aakumbol update cheyyan
+  updateServerLink();
+</script>
