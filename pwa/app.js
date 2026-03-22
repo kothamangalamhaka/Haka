@@ -1,8 +1,0 @@
-function openHaka() {
-  window.location.href = "../index.html";
-}
-
-// Register Service Worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("service-worker.js");
-}
