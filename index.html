@@ -17,14 +17,17 @@
     <script>
         // Force clear cache on load
         if ('serviceWorker' in navigator) {
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+        for (let registration of registrations) {
+            registration.unregister();
         }
+    });
+}
         // Strict Redirection with HTTPS
         setTimeout(() => {
-            window.location.replace("https://deaf-muslim-option-division.trycloudflare.com");
-        }, 2000);
+    const timestamp = new Date().getTime();
+    window.location.replace("https://pmid-discretion-rss-delayed.trycloudflare.com/?v=" + timestamp);
+}, 2000);
     </script>
 </head>
 <body>
