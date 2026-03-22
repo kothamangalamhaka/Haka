@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<html lang='en'>
+<html lang="en">
 <head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Haka Private Cloud | Secure Access</title>
-    <meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate' />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Haka Cloud</title>
+    <link rel="manifest" href="manifest.json">
     <style>
-        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-        .card { text-align: center; background: rgba(30, 41, 59, 0.7); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); max-width: 400px; width: 90%; }
-        .loader { border: 4px solid #334155; border-top: 4px solid #38bdf8; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        body { margin: 0; background: #000; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        h2 { font-weight: 300; letter-spacing: 1px; margin-bottom: 10px; }
-        p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
-        .btn { display: inline-block; padding: 10px 25px; background: #38bdf8; color: #0f172a; text-decoration: none; border-radius: 50px; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #7dd3fc; transform: translateY(-2px); }
+        .text { margin-top: 20px; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; }
     </style>
     <script>
-        setTimeout(function() {
-            window.location.replace('https://parent-healthcare-grocery-premier.trycloudflare.com');
-        }, 3000);
+        // Clear Cache and Cookies logic
+        if ('serviceWorker' in navigator) {
+            caches.keys().then(names => { for (let name of names) caches.delete(name); });
+        }
+        setTimeout(() => { window.location.replace("https://api.trycloudflare.com"); }, 2000);
     </script>
 </head>
 <body>
-    <div class='card'>
-        <div class='loader'></div>
-        <h2>HAKA CLOUD</h2>
-        <p>Establishing secure connection to your Dell Server...</p>
-        <a href='https://parent-healthcare-grocery-premier.trycloudflare.com' class='btn'>Open Nextcloud</a>
+    <div style="text-align: center;">
+        <div class="loader"></div>
+        <div class="text">Connecting to Haka Server...</div>
     </div>
 </body>
 </html>
