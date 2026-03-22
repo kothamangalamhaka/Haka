@@ -9,17 +9,23 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#0f172a">
 
+  <!-- iOS support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <h1 class="title">KLM Haka Server</h1>
+<div class="container">
+  <h1>KLM Haka Server</h1>
 
-    <button class="main-btn" onclick="openHaka()">
-      Connect to Server
-    </button>
-  </div>
+  <button onclick="openHaka()">
+    Connect Now
+  </button>
+
+  <p class="hint">Install this app for better experience</p>
+</div>
 
 <script src="app.js"></script>
 </body>

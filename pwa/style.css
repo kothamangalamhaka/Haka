@@ -1,48 +1,47 @@
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg, #0f172a, #1e293b);
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #020617, #0f172a);
   color: white;
-  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
 }
 
 .container {
   text-align: center;
-  animation: fadeIn 1.5s ease;
+  animation: fade 1.2s ease;
 }
 
-.title {
-  font-size: 2.5rem;
-  margin-bottom: 40px;
-  letter-spacing: 1px;
+h1 {
+  font-size: 28px;
+  margin-bottom: 30px;
 }
 
-.main-btn {
-  padding: 15px 40px;
-  font-size: 18px;
+button {
+  padding: 14px 35px;
+  font-size: 16px;
   border: none;
-  border-radius: 50px;
-  background: linear-gradient(45deg, #22c55e, #4ade80);
+  border-radius: 40px;
+  background: #22c55e;
   color: white;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: 0.3s;
 }
 
-.main-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #22c55e;
+button:hover {
+  background: #16a34a;
+  transform: scale(1.05);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.hint {
+  margin-top: 20px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+@keyframes fade {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
 }

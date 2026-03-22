@@ -1,8 +1,8 @@
 function openHaka() {
-  window.location.href = "https://kothamangalamhaka.github.io/Haka/";
+  window.location.href = "../index.html";
 }
 
-// Service Worker register
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+// Register Service Worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
 }
