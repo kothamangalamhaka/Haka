@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haka Rentals (P) Ltd - MNC Style Grid</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#0a1f44">
+    <style>
+        /* CSS resets and global styling */
+        :root {
+            --bg-dark-blue: #0a1f44;
+            --bg-gradient-end: #1a3a6c;
+            --primary-accent: #00CED1; /* Cyan */
+            --secondary-accent: #FFC300; /* Gold */
+            --text-white: #ffffff;
+            --font-inter: 'Inter', sans-serif;
+            --font-montserrat: 'Montserrat', sans-serif;
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* Sophisticated dark background gradient */
+            background-color: var(--bg-dark-blue);
+            background-image: radial-gradient(circle at top right, rgba(0, 206, 209, 0.05) 0%, rgba(0, 0, 0, 0) 60%),
+                              radial-gradient(circle at bottom left, rgba(255, 195, 0, 0.05) 0%, rgba(0, 0, 0, 0) 60%),
+                              linear-gradient(135deg, var(--bg-dark-blue), var(--bg-gradient-end));
+            color: var(--text-white);
+            font-family: var(--font-inter);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 50px 20px;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        /* Loading animation base class */
+        .animate {
+            opacity: 0;
+            animation: fadeInUp var(--transition-speed) ease forwards;
+        }
+
+        .animate-title { animation-delay: 0.2s; }
+        .animate-connect { animation-delay: 0.4s; }
+        .animate-actions { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Title styling */
+        h1 {
+            font-size: 3.2rem;
+            margin-bottom: 4rem;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-family: var(--font-montserrat);
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #ffffff 30%, #a0c4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 850px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-speed) ease;
+        }
+
+        /* Top Connect Button */
+        .connect-btn {
+            position: relative;
+            background: var(--secondary-accent);
+            color: var(--bg-dark-blue);
+            padding: 16px 45px;
+            border-radius: 40px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 4rem;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .connect-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+            transition: transform 0.6s ease;
+            z-index: -1;
+            opacity: 0;
+        }
+
+        .connect-btn:hover {
+            background-color: #ffd700;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 195, 0, 0.3);
+        }
+
+        .connect-btn:hover::after {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 1;
+        }
+
+        /* Container for bottom buttons - CHANGED TO CSS GRID */
+        .action-btns-box {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Forces exactly 2 columns */
+            gap: 25px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3), 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bottom Action Buttons */
+        .action-btn {
+            position: relative;
+            width: 100%; /* Fills the grid cell */
+            background: var(--primary-accent);
+            color: var(--text-white);
+            padding: 18px 20px;
+            border-radius: 35px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            text-align: center;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.7s ease;
+            z-index: -1;
+        }
+
+        .action-btn:hover {
+            background-color: #00aaaa;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .action-btn:hover::after {
+            left: 100%;
+        }
+
+        /* Responsive design for mobile devices */
+        @media (max-width: 650px) {
+            h1 {
+                font-size: 2.5rem;
+                margin-bottom: 3rem;
+            }
+            .connect-btn {
+                font-size: 1.05rem;
+                padding: 14px 35px;
+                margin-bottom: 3.5rem;
+            }
+            .action-btns-box {
+                grid-template-columns: 1fr; /* Switches to 1 column on small screens */
+                gap: 20px;
+                padding: 20px;
+            }
+        }
+        a{
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="animate animate-title">Haka Rentals (P) Ltd</h1>
+
+    <main>
+        <a href="../index.html><button class="connect-btn animate animate-connect">Connect with Us</button></a>
+
+        <div class="action-btns-box animate animate-actions">
+            
+        </div>
+    </main>
+
+
+
+  <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(registration => {
+                    console.log('ServiceWorker registration successful');
+                })
+                .catch(err => {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+        });
+    }
+</script>
+</body>
+</html>
