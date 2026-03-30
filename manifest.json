@@ -1,6 +1,6 @@
 {
     "short_name": "HakaCloud",
-    "name": "Haka Private Cloud Server",
+    "name": "Haka Private Servers",
     "icons": [ { "src": "https://cdn-icons-png.flaticon.com/512/2103/2103633.png", "sizes": "512x512", "type": "image/png" } ],
     "start_url": "/Haka/",
     "display": "standalone",

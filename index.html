@@ -3,32 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <title>Haka Cloud | Secure Bridge</title>
-    <link rel="manifest" href="manifest.json">
     <style>
-        body { margin: 0; background: #0b0f19; color: white; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        body { margin: 0; background: #0b0f19; color: white; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
         .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #38bdf8; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
         .text { margin-top: 25px; font-size: 14px; letter-spacing: 3px; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
     <script>
-        // Force clear cache on load
-        if ('serviceWorker' in navigator) {
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
-        }
-        // Strict Redirection with HTTPS
-        setTimeout(() => {
-            window.location.replace("https://recordings-liberal-alternatives-operators.trycloudflare.com");
-        }, 2000);
+        setTimeout(() => { window.location.replace("https://respect-slim-rural-tell.trycloudflare.com"); }, 2000);
     </script>
 </head>
 <body>
     <div class="loader"></div>
-    <div class="text">Connecting to Haka Server...</div>
+    <div class="text">Connecting to Haka Cloud...</div>
 </body>
 </html>
