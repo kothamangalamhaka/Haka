@@ -1,0 +1,120 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# --- CONFIGURATION ---
+GH_TOKEN="xxxxxxxxxxxxxxxxxxxxx"
+GH_REPO="kothamangalamhaka/Haka"
+LOCAL_DIR="/home/fefei/tunnel_repo"
+LOG_FILE_NC="/home/fefei/server_data/tunnel_nc.log"
+LOG_FILE_ERP="/home/fefei/server_data/tunnel_erp.log"
+
+# Kill existing tunnels
+pkill -9 cloudflared
+sleep 5
+
+# 1. Start Tunnel for Nextcloud (Port 443)
+echo "Starting Nextcloud Tunnel..." > $LOG_FILE_NC
+nohup cloudflared tunnel --url https://localhost:443 --no-tls-verify --origin-server-name localhost --no-autoupdate > $LOG_FILE_NC 2>&1 &
+
+# 2. Start Tunnel for ERP System (Port 5000)
+echo "Starting ERP System Tunnel..." > $LOG_FILE_ERP
+nohup cloudflared tunnel --url http://localhost:5000 --no-autoupdate > $LOG_FILE_ERP 2>&1 &
+
+# Wait for URLs to generate
+sleep 20
+
+# Extract URLs (FIXED: Ignored api.trycloudflare.com)
+NC_URL=$(grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare.com' $LOG_FILE_NC | grep -v 'api.trycloudflare.com' | head -n 1 | sed 's|https://||')
+ERP_URL=$(grep -o 'https://[a-zA-Z0-9-]*\.trycloudflare.com' $LOG_FILE_ERP | grep -v 'api.trycloudflare.com' | head -n 1 | sed 's|https://||')
+
+if [ -z "$NC_URL" ] || [ -z "$ERP_URL" ]; then
+    echo "Failed to generate one or more Tunnel URLs"
+    exit 1
+fi
+
+# 3. Update Nextcloud Trusted Domains
+docker exec --user abc nextcloud php /app/www/public/occ config:system:set trusted_domains 5 --value=$NC_URL
+
+# 4. Update GitHub Pages
+while ! ping -c 1 github.com &> /dev/null; do
+    sleep 5
+    echo "Waiting for internet..."
+done
+# ------------------------------------------------
+
+rm -rf $LOCAL_DIR
+git clone https://$GH_TOKEN@github.com/$GH_REPO.git $LOCAL_DIR
+cd $LOCAL_DIR
+
+# Remove specific old HTML files if they exist to keep the repo clean
+rm -f customer.html timesheet.html report.html ssh_url.txt
+
+# --- CREATE index.html (Nextcloud Redirect) ---
+cat <<EOF > index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haka Cloud | Secure Bridge</title>
+    <style>
+        body { margin: 0; background: #0b0f19; color: white; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
+        .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #38bdf8; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        .text { margin-top: 25px; font-size: 14px; letter-spacing: 3px; color: #94a3b8; text-transform: uppercase; font-weight: bold; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    <script>
+        setTimeout(() => { window.location.replace("https://$NC_URL"); }, 2000);
+    </script>
+</head>
+<body>
+    <div class="loader"></div>
+    <div class="text">Connecting to Haka Cloud...</div>
+</body>
+</html>
+EOF
+
+# --- CREATE erp.html (ERP System Redirect) ---
+cat <<EOF > erp.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haka ERP | Secure Login</title>
+    <style>
+        body { margin: 0; background: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
+        .loader { border: 3px solid rgba(255,255,255,0.1); border-top: 3px solid #10b981; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+        .text { margin-top: 25px; font-size: 14px; letter-spacing: 3px; color: #10b981; text-transform: uppercase; font-weight: bold; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+    <script>
+        setTimeout(() => { window.location.replace("https://$ERP_URL"); }, 2000);
+    </script>
+</head>
+<body>
+    <div class="loader"></div>
+    <div class="text">Initializing ERP.......</div>
+</body>
+</html>
+EOF
+
+# Create manifest.json
+cat <<EOF > manifest.json
+{
+    "short_name": "HakaCloud",
+    "name": "Haka Private Servers",
+    "icons": [ { "src": "https://cdn-icons-png.flaticon.com/512/2103/2103633.png", "sizes": "512x512", "type": "image/png" } ],
+    "start_url": "/Haka/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#000000"
+}
+EOF
+
+# Git Push
+git config --global user.email "fefei@server.local"
+git config --global user.name "Fefei Server"
+git add .
+git commit -m "Auto-update Tunnels: NC & ERP"
+git push origin main
